@@ -3,6 +3,7 @@ using AulaMVVMHTTPClient.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,19 +14,19 @@ namespace AulaMVVMHTTPClient.ViewModels
     public partial class PostViewModel : ObservableObject
     {
         [ObservableProperty]
-        List<Post> posts;
+        ObservableCollection<Post> posts;
         public PostService postsService;
-        private ICommand getPostsCommand; 
+        public ICommand getPostsCommand { get; }
 
-        PostViewModel() { 
-            PostService postsService = new PostService();
+        public PostViewModel() { 
             getPostsCommand = new Command(getPosts);
         }
 
         public async void getPosts()
         {
+            PostService postsService = new PostService();
             //Buscar os dados da API
-            posts = await postsService.GetPosts();
+            Posts = await postsService.GetPosts();
         }
     }
 }

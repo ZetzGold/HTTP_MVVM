@@ -1,6 +1,7 @@
 ﻿using AulaMVVMHTTPClient.Models;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
@@ -13,7 +14,7 @@ namespace AulaMVVMHTTPClient.Services
         HttpClient client;
         JsonSerializerOptions options;
 
-        public List<Post> posts;
+        public ObservableCollection<Post> posts;
 
         public PostService()
         {
@@ -25,7 +26,7 @@ namespace AulaMVVMHTTPClient.Services
             };
         }
 
-        public async Task<List<Post>> GetPosts()
+        public async Task<ObservableCollection<Post>> GetPosts()
         {
             Uri uri = new Uri("https://jsonplaceholder.typicode.com/posts");
             try
@@ -34,7 +35,7 @@ namespace AulaMVVMHTTPClient.Services
                 if (httpResponseMessage.IsSuccessStatusCode)
                 {
                     string content = await httpResponseMessage.Content.ReadAsStringAsync();
-                    posts = JsonSerializer.Deserialize<List<Post>>(content, options);
+                    posts = JsonSerializer.Deserialize<ObservableCollection<Post>>(content, options);
                 }
             }
             catch (Exception ex) 
